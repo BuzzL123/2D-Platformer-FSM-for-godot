@@ -1,5 +1,7 @@
 # 2D Platformer FSM for godot
-A 2D Platformer Character with a Finite State Machine for godot
+A 2D Platformer Character with a Finite State Machine for godot.
+
+I wanted to make a 2d platformer character and I wanted did it to be able to be as customizable as possible for if I have any future ideas.
 
 Here's a diagram:
 ![States](https://github.com/BuzzL123/2D-Platformer-FSM-godot-/blob/main/Screenshots/Screenshot%202025-04-25%20163352.png)
