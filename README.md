@@ -21,4 +21,4 @@ To be added:
   - hit particles (or just an indecator)
 
 To learn how to make a FSM, used the tutorial by **The Shaggy Dev**:
-  (Link to his tutorial)[https://shaggydev.com/2023/10/08/godot-4-state-machines/]
+  [Link to his tutorial](https://shaggydev.com/2023/10/08/godot-4-state-machines/)
