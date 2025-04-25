@@ -1,0 +1,141 @@
+[gd_scene load_steps=17 format=3 uid="uid://m7src34586sf"]
+
+[ext_resource type="Script" uid="uid://bh32utr0schcf" path="res://Scripts/NPC/NPC_001_Main.gd" id="1_8wr0e"]
+[ext_resource type="Script" uid="uid://71mwvwxd1x4f" path="res://Scripts/NPC/AutoMove.gd" id="1_yroho"]
+[ext_resource type="Script" uid="uid://b62aoopfoclrm" path="res://Scripts/StateMachine/StateMachine.gd" id="2_4lyjx"]
+[ext_resource type="Script" uid="uid://cms6yihfloo0c" path="res://Scripts/StateMachine/MovementStates/IdleState.gd" id="3_snl6g"]
+[ext_resource type="Script" uid="uid://dxxrvmd6lbfe1" path="res://Scripts/StateMachine/MovementStates/RunState.gd" id="4_8wr0e"]
+[ext_resource type="Script" uid="uid://sw546s33kref" path="res://Scripts/StateMachine/MovementStates/JumpState.gd" id="5_4l6u5"]
+[ext_resource type="Script" uid="uid://drabvjlvddxcf" path="res://Scripts/StateMachine/MovementStates/AirJumpState.gd" id="6_lva3c"]
+[ext_resource type="Script" uid="uid://bgmityisoyaag" path="res://Scripts/StateMachine/MovementStates/FallState.gd" id="7_c2k1n"]
+[ext_resource type="Script" uid="uid://bou4f0gm3tpv3" path="res://Scripts/StateMachine/MovementStates/CrouchState.gd" id="8_hf44p"]
+[ext_resource type="Script" uid="uid://bc6dghklpc6qg" path="res://Scripts/StateMachine/MovementStates/DashState.gd" id="9_jend5"]
+[ext_resource type="Script" uid="uid://crytq0b6t6pe2" path="res://Scripts/StateMachine/MovementStates/DeathState.gd" id="10_snl6g"]
+
+[sub_resource type="Gradient" id="Gradient_ang2q"]
+offsets = PackedFloat32Array(0, 0.227273, 1)
+colors = PackedColorArray(0, 0, 0, 1, 0.123377, 0.123377, 0.123377, 1, 1, 1, 1, 1)
+
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_2frwy"]
+
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_j5pel"]
+color_ramp = SubResource("Gradient_ang2q")
+noise = SubResource("FastNoiseLite_2frwy")
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_kmn4r"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_8wr0e"]
+font_color = Color(0.866667, 0.152941, 0.101961, 1)
+
+[node name="NPC" type="CharacterBody2D"]
+script = ExtResource("1_8wr0e")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+position = Vector2(2.38419e-07, 2.98023e-07)
+scale = Vector2(0.0390625, 0.0585938)
+texture = SubResource("NoiseTexture2D_j5pel")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CapsuleShape2D_kmn4r")
+
+[node name="MoveComponent" type="Node" parent="." node_paths=PackedStringArray("parent")]
+script = ExtResource("1_yroho")
+parent = NodePath("..")
+
+[node name="MovementStateMachine" type="Node" parent="." node_paths=PackedStringArray("starting_state")]
+script = ExtResource("2_4lyjx")
+starting_state = NodePath("Idle")
+
+[node name="Idle" type="Node" parent="MovementStateMachine" node_paths=PackedStringArray("FallState", "JumpState", "MoveState")]
+script = ExtResource("3_snl6g")
+FallState = NodePath("../Fall")
+JumpState = NodePath("../Jump")
+MoveState = NodePath("../Move")
+animation_name = "RESET"
+
+[node name="Move" type="Node" parent="MovementStateMachine" node_paths=PackedStringArray("FallState", "IdleState", "JumpState")]
+script = ExtResource("4_8wr0e")
+FallState = NodePath("../Fall")
+IdleState = NodePath("../Idle")
+JumpState = NodePath("../Jump")
+animation_name = "RESET"
+
+[node name="Jump" type="Node" parent="MovementStateMachine" node_paths=PackedStringArray("FallState", "IdleState", "MoveState")]
+script = ExtResource("5_4l6u5")
+FallState = NodePath("../Fall")
+IdleState = NodePath("../Idle")
+MoveState = NodePath("../Move")
+animation_name = "RESET"
+
+[node name="Fall" type="Node" parent="MovementStateMachine" node_paths=PackedStringArray("IdleState", "MoveState")]
+script = ExtResource("7_c2k1n")
+IdleState = NodePath("../Idle")
+MoveState = NodePath("../Move")
+animation_name = "RESET"
+
+[node name="AirJump" type="Node" parent="MovementStateMachine" node_paths=PackedStringArray("AirJumpState")]
+script = ExtResource("6_lva3c")
+AirJumpState = NodePath(".")
+animation_name = "RESET"
+
+[node name="Crouch" type="Node" parent="MovementStateMachine"]
+script = ExtResource("8_hf44p")
+animation_name = "Crouch"
+
+[node name="Dash" type="Node" parent="MovementStateMachine" node_paths=PackedStringArray("MoveState", "FallState", "IdleState", "JumpState", "CrouchState", "DashState", "CoyoteState")]
+script = ExtResource("9_jend5")
+MoveState = NodePath("../Move")
+FallState = NodePath("../Fall")
+IdleState = NodePath("../Idle")
+JumpState = NodePath("../Jump")
+CrouchState = NodePath("../Crouch")
+DashState = NodePath(".")
+CoyoteState = NodePath(".")
+animation_name = "RESET"
+move_speed = 850.0
+
+[node name="Dead" type="Node" parent="MovementStateMachine"]
+script = ExtResource("10_snl6g")
+
+[node name="Lables" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 0
+
+[node name="MovementStateLable" type="Label" parent="Lables"]
+unique_name_in_owner = true
+layout_mode = 0
+offset_left = -20.0
+offset_top = -41.0
+offset_right = 20.0
+offset_bottom = -18.0
+pivot_offset = Vector2(26, 16)
+
+[node name="AttackStateLable" type="Label" parent="Lables"]
+unique_name_in_owner = true
+layout_mode = 0
+offset_left = -24.0
+offset_top = -56.0
+offset_right = 16.0
+offset_bottom = -33.0
+pivot_offset = Vector2(26, 16)
+label_settings = SubResource("LabelSettings_8wr0e")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+
+[node name="Timers" type="Node" parent="."]
+
+[node name="CoyoteTimer" type="Timer" parent="Timers"]
+unique_name_in_owner = true
+wait_time = 0.15
+one_shot = true
+
+[node name="AirJumpDelay" type="Timer" parent="Timers"]
+unique_name_in_owner = true
+process_callback = 0
+wait_time = 2.0
+one_shot = true
+
+[node name="DashDelayTimer" type="Timer" parent="Timers"]
+unique_name_in_owner = true
+process_callback = 0
+one_shot = true

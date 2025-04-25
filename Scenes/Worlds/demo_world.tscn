@@ -1,0 +1,59 @@
+[gd_scene load_steps=8 format=3 uid="uid://bkhl1lx40vxgv"]
+
+[ext_resource type="PackedScene" uid="uid://dx61o0k2qkbyn" path="res://Scenes/Players/player.tscn" id="1_lwveb"]
+[ext_resource type="PackedScene" uid="uid://m7src34586sf" path="res://Scenes/NPCs/NPC_001.tscn" id="2_lwveb"]
+
+[sub_resource type="Gradient" id="Gradient_ru8pd"]
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_hp1w0"]
+gradient = SubResource("Gradient_ru8pd")
+
+[sub_resource type="SegmentShape2D" id="SegmentShape2D_btrko"]
+a = Vector2(591, -475)
+b = Vector2(594, 0)
+
+[sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_gnpb7"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_874vt"]
+size = Vector2(109, 112)
+
+[node name="Demo_World" type="Node2D"]
+
+[node name="player" parent="." instance=ExtResource("1_lwveb")]
+position = Vector2(733, 449)
+collision_layer = 3
+collision_mask = 3
+
+[node name="StaticBody2D" type="StaticBody2D" parent="."]
+position = Vector2(560, 471)
+
+[node name="Sprite2D" type="Sprite2D" parent="StaticBody2D"]
+position = Vector2(0, 14)
+scale = Vector2(21.5469, 0.484375)
+texture = SubResource("GradientTexture2D_hp1w0")
+
+[node name="Sprite2D" type="Sprite2D" parent="StaticBody2D/Sprite2D"]
+position = Vector2(30.0275, -495.484)
+scale = Vector2(0.0775926, 14.6615)
+texture = SubResource("GradientTexture2D_hp1w0")
+
+[node name="CollisionShape2D3" type="CollisionShape2D" parent="StaticBody2D"]
+shape = SubResource("SegmentShape2D_btrko")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D"]
+shape = SubResource("WorldBoundaryShape2D_gnpb7")
+
+[node name="CollisionShape2D2" type="CollisionShape2D" parent="StaticBody2D"]
+shape = SubResource("SegmentShape2D_btrko")
+
+[node name="Sprite2D2" type="Sprite2D" parent="StaticBody2D"]
+position = Vector2(89.2878, -49)
+scale = Vector2(1.69649, 1.56084)
+texture = SubResource("GradientTexture2D_hp1w0")
+
+[node name="CollisionShape2D4" type="CollisionShape2D" parent="StaticBody2D"]
+position = Vector2(89.5, -43)
+shape = SubResource("RectangleShape2D_874vt")
+
+[node name="NPC" parent="." instance=ExtResource("2_lwveb")]
+position = Vector2(944, 454)

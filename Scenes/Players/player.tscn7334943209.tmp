@@ -1,0 +1,303 @@
+[gd_scene load_steps=23 format=3 uid="uid://dx61o0k2qkbyn"]
+
+[ext_resource type="Script" uid="uid://bgik4b5e1ed0f" path="res://Scripts/Player/PlayerMain.gd" id="1_shxdu"]
+[ext_resource type="Script" uid="uid://b62aoopfoclrm" path="res://Scripts/StateMachine/StateMachine.gd" id="2_8reab"]
+[ext_resource type="Script" uid="uid://cms6yihfloo0c" path="res://Scripts/StateMachine/MovementStates/IdleState.gd" id="4_gfkdj"]
+[ext_resource type="Script" uid="uid://dxxrvmd6lbfe1" path="res://Scripts/StateMachine/MovementStates/RunState.gd" id="5_xxqkx"]
+[ext_resource type="Script" uid="uid://sw546s33kref" path="res://Scripts/StateMachine/MovementStates/JumpState.gd" id="6_j8xm3"]
+[ext_resource type="Script" uid="uid://drabvjlvddxcf" path="res://Scripts/StateMachine/MovementStates/AirJumpState.gd" id="7_r5bcf"]
+[ext_resource type="Script" uid="uid://bgmityisoyaag" path="res://Scripts/StateMachine/MovementStates/FallState.gd" id="8_7vh4w"]
+[ext_resource type="Script" uid="uid://di5ixr838cu31" path="res://Scripts/Player/MoveComponent.gd" id="9_iq7l2"]
+[ext_resource type="Script" uid="uid://bou4f0gm3tpv3" path="res://Scripts/StateMachine/MovementStates/CrouchState.gd" id="9_npdhm"]
+[ext_resource type="Script" uid="uid://bc6dghklpc6qg" path="res://Scripts/StateMachine/MovementStates/DashState.gd" id="10_fuwcu"]
+[ext_resource type="Script" uid="uid://d4cx8oxvsf273" path="res://Scripts/StateMachine/MovementStates/Coyote.gd" id="10_xxqkx"]
+[ext_resource type="Script" uid="uid://crytq0b6t6pe2" path="res://Scripts/StateMachine/MovementStates/DeathState.gd" id="11_j8xm3"]
+
+[sub_resource type="PlaceholderTexture2D" id="PlaceholderTexture2D_tkgvg"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_0inx1"]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_bm2sa"]
+
+[sub_resource type="Animation" id="Animation_xlf42"]
+resource_name = "Crouch"
+length = 0.0333367
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:scale")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(20, 20)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("CollisionShape2D:disabled")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("CrouchCollisionShape:disabled")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("Sprite2D:position")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(0, 5)]
+}
+
+[sub_resource type="Animation" id="Animation_85nga"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("CrouchCollisionShape:disabled")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("CollisionShape2D:disabled")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("Sprite2D:scale")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(20, 30)]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("Sprite2D:position")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(0, 0)]
+}
+
+[sub_resource type="Animation" id="Animation_782ek"]
+resource_name = "null"
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_76rh1"]
+_data = {
+&"Crouch": SubResource("Animation_xlf42"),
+&"RESET": SubResource("Animation_85nga"),
+&"null": SubResource("Animation_782ek")
+}
+
+[sub_resource type="Gradient" id="Gradient_44r62"]
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_n36rp"]
+gradient = SubResource("Gradient_44r62")
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_44r62"]
+size = Vector2(9.5, 3)
+
+[node name="Player" type="CharacterBody2D"]
+script = ExtResource("1_shxdu")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+scale = Vector2(20, 30)
+texture = SubResource("PlaceholderTexture2D_tkgvg")
+
+[node name="CrouchCollisionShape" type="CollisionShape2D" parent="."]
+position = Vector2(0, 5)
+shape = SubResource("CircleShape2D_0inx1")
+disabled = true
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CapsuleShape2D_bm2sa")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+&"": SubResource("AnimationLibrary_76rh1")
+}
+
+[node name="weapon" type="Area2D" parent="."]
+
+[node name="Knife" type="Sprite2D" parent="weapon"]
+position = Vector2(17, -2)
+scale = Vector2(0.1875, 0.046875)
+texture = SubResource("GradientTexture2D_n36rp")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="weapon"]
+position = Vector2(18.25, -2)
+shape = SubResource("RectangleShape2D_44r62")
+disabled = true
+
+[node name="WeaponAnim" type="AnimationPlayer" parent="weapon"]
+
+[node name="TODOstates" type="Node" parent="."]
+
+[node name="MovementStateMachine" type="Node" parent="." node_paths=PackedStringArray("starting_state")]
+script = ExtResource("2_8reab")
+starting_state = NodePath("Idle")
+
+[node name="Idle" type="Node" parent="MovementStateMachine" node_paths=PackedStringArray("FallState", "JumpState", "MoveState", "CrouchState", "DashState")]
+script = ExtResource("4_gfkdj")
+FallState = NodePath("../Fall")
+JumpState = NodePath("../Jump")
+MoveState = NodePath("../Move")
+CrouchState = NodePath("../Crouch")
+DashState = NodePath("../Dash")
+animation_name = "RESET"
+
+[node name="Move" type="Node" parent="MovementStateMachine" node_paths=PackedStringArray("FallState", "IdleState", "JumpState", "CrouchState", "DashState", "CoyoteState", "DeadState")]
+script = ExtResource("5_xxqkx")
+FallState = NodePath("../Fall")
+IdleState = NodePath("../Idle")
+JumpState = NodePath("../Jump")
+CrouchState = NodePath("../Crouch")
+DashState = NodePath("../Dash")
+CoyoteState = NodePath("../Coyote")
+DeadState = NodePath("../Dead")
+animation_name = "RESET"
+
+[node name="Jump" type="Node" parent="MovementStateMachine" node_paths=PackedStringArray("FallState", "IdleState", "MoveState", "AirJumpState")]
+script = ExtResource("6_j8xm3")
+FallState = NodePath("../Fall")
+IdleState = NodePath("../Idle")
+MoveState = NodePath("../Move")
+AirJumpState = NodePath("../AirJump")
+animation_name = "RESET"
+
+[node name="AirJump" type="Node" parent="MovementStateMachine" node_paths=PackedStringArray("JumpState", "FallState", "IdleState", "MoveState", "AirJumpState")]
+script = ExtResource("7_r5bcf")
+JumpState = NodePath("../Jump")
+FallState = NodePath("../Fall")
+IdleState = NodePath("../Idle")
+MoveState = NodePath("../Move")
+AirJumpState = NodePath(".")
+animation_name = "RESET"
+
+[node name="Fall" type="Node" parent="MovementStateMachine" node_paths=PackedStringArray("IdleState", "MoveState", "AirJumpState", "CrouchState")]
+script = ExtResource("8_7vh4w")
+IdleState = NodePath("../Idle")
+MoveState = NodePath("../Move")
+AirJumpState = NodePath("../AirJump")
+CrouchState = NodePath("../Crouch")
+animation_name = "RESET"
+
+[node name="Crouch" type="Node" parent="MovementStateMachine" node_paths=PackedStringArray("FallState", "IdleState", "JumpState", "MoveState", "DashState")]
+script = ExtResource("9_npdhm")
+FallState = NodePath("../Fall")
+IdleState = NodePath("../Idle")
+JumpState = NodePath("../Jump")
+MoveState = NodePath("../Move")
+DashState = NodePath("../Dash")
+animation_name = "Crouch"
+
+[node name="Dash" type="Node" parent="MovementStateMachine" node_paths=PackedStringArray("MoveState", "FallState", "IdleState", "JumpState", "CrouchState", "DashState", "CoyoteState")]
+script = ExtResource("10_fuwcu")
+MoveState = NodePath("../Move")
+FallState = NodePath("../Fall")
+IdleState = NodePath("../Idle")
+JumpState = NodePath("../Jump")
+CrouchState = NodePath("../Crouch")
+DashState = NodePath(".")
+CoyoteState = NodePath("../Coyote")
+animation_name = "RESET"
+move_speed = 850.0
+
+[node name="Coyote" type="Node" parent="MovementStateMachine" node_paths=PackedStringArray("MoveState", "FallState", "IdleState", "JumpState", "CrouchState", "DashState", "CoyoteState", "DeadState")]
+script = ExtResource("10_xxqkx")
+MoveState = NodePath("../Move")
+coyote_duration = 4.4
+FallState = NodePath("../Fall")
+IdleState = NodePath("../Idle")
+JumpState = NodePath("../Jump")
+CrouchState = NodePath("../Crouch")
+DashState = NodePath("../Dash")
+CoyoteState = NodePath(".")
+DeadState = NodePath("../Dead")
+animation_name = "RESET"
+
+[node name="Dead" type="Node" parent="MovementStateMachine"]
+script = ExtResource("11_j8xm3")
+
+[node name="AttackStateMachine" type="Node" parent="."]
+script = ExtResource("2_8reab")
+
+[node name="Idle" type="Node" parent="AttackStateMachine"]
+
+[node name="Jab!" type="Node" parent="AttackStateMachine"]
+
+[node name="MoveComponent" type="Node" parent="."]
+script = ExtResource("9_iq7l2")
+
+[node name="Timers" type="Node" parent="."]
+
+[node name="CoyoteTimer" type="Timer" parent="Timers"]
+unique_name_in_owner = true
+one_shot = true
+
+[node name="AirJumpDelay" type="Timer" parent="Timers"]
+unique_name_in_owner = true
+process_callback = 0
+wait_time = 2.0
+one_shot = true
+
+[node name="DashDelayTimer" type="Timer" parent="Timers"]
+unique_name_in_owner = true
+process_callback = 0
+one_shot = true
+
+[node name="Lables" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 0
+
+[node name="MovementStateLable" type="Label" parent="Lables"]
+unique_name_in_owner = true
+layout_mode = 0
+offset_left = -20.0
+offset_top = -41.0
+offset_right = 20.0
+offset_bottom = -18.0
+pivot_offset = Vector2(26, 16)

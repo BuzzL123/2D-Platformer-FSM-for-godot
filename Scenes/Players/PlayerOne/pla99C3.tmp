@@ -1,0 +1,206 @@
+[gd_scene load_steps=12 format=3 uid="uid://dx61o0k2qkbyn"]
+
+[ext_resource type="Script" path="res://Scenes/Players/PlayerOne/Scripts/PlayerMain.gd" id="1_shxdu"]
+[ext_resource type="Script" path="res://scripts/StateMachine/StateMachine.gd" id="2_8reab"]
+[ext_resource type="Script" path="res://Scenes/Players/PlayerOne/DashState.gd" id="9_aditb"]
+[ext_resource type="Script" path="res://Scenes/Players/PlayerOne/Scripts/MoveComponent.gd" id="9_iq7l2"]
+
+[sub_resource type="PlaceholderTexture2D" id="PlaceholderTexture2D_tkgvg"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_0inx1"]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_bm2sa"]
+
+[sub_resource type="Animation" id="Animation_xlf42"]
+resource_name = "Crouch"
+length = 0.0333367
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:scale")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(20, 20)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("CollisionShape2D:disabled")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("ShiftCollisionShape:disabled")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("Sprite2D:position")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(0, 5)]
+}
+
+[sub_resource type="Animation" id="Animation_85nga"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("ShiftCollisionShape:disabled")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("CollisionShape2D:disabled")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("Sprite2D:scale")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(20, 30)]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("Sprite2D:position")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(0, 0)]
+}
+
+[sub_resource type="Animation" id="Animation_782ek"]
+resource_name = "null"
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_76rh1"]
+_data = {
+"Crouch": SubResource("Animation_xlf42"),
+"RESET": SubResource("Animation_85nga"),
+"null": SubResource("Animation_782ek")
+}
+
+[node name="Player" type="CharacterBody2D"]
+script = ExtResource("1_shxdu")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+scale = Vector2(20, 30)
+texture = SubResource("PlaceholderTexture2D_tkgvg")
+
+[node name="ShiftCollisionShape" type="CollisionShape2D" parent="."]
+position = Vector2(0, 5)
+shape = SubResource("CircleShape2D_0inx1")
+disabled = true
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CapsuleShape2D_bm2sa")
+
+[node name="TODOstates" type="Node" parent="."]
+
+[node name="Jab!" type="Node" parent="TODOstates"]
+
+[node name="MovementStateMachine" type="Node" parent="." node_paths=PackedStringArray("starting_state")]
+script = ExtResource("2_8reab")
+starting_state = NodePath("Idle")
+
+[node name="Idle" type="Node" parent="MovementStateMachine"]
+
+[node name="Run" type="Node" parent="MovementStateMachine"]
+
+[node name="Jump" type="Node" parent="MovementStateMachine"]
+
+[node name="AirJump" type="Node" parent="MovementStateMachine"]
+
+[node name="Fall" type="Node" parent="MovementStateMachine"]
+
+[node name="Crouch" type="Node" parent="MovementStateMachine"]
+
+[node name="AttackStateMachine" type="Node" parent="."]
+
+[node name="Idle" type="Node" parent="AttackStateMachine"]
+
+[node name="Dash" type="Node" parent="AttackStateMachine" node_paths=PackedStringArray("MoveState", "FallState", "IdleState", "JumpState", "CrouchState")]
+script = ExtResource("9_aditb")
+animation_name = "RESET"
+MoveState = NodePath("../../MovementStateMachine/Run")
+FallState = NodePath("../../MovementStateMachine/Fall")
+IdleState = NodePath("../../MovementStateMachine/Idle")
+JumpState = NodePath("../../MovementStateMachine/Jump")
+CrouchState = NodePath("../../MovementStateMachine/Crouch")
+
+[node name="Dead" type="Node" parent="AttackStateMachine"]
+
+[node name="MoveComponent" type="Node" parent="."]
+script = ExtResource("9_iq7l2")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+"": SubResource("AnimationLibrary_76rh1")
+}
+
+[node name="Timers" type="Node" parent="."]
+
+[node name="CoyoteTimer" type="Timer" parent="Timers"]
+unique_name_in_owner = true
+wait_time = 0.15
+one_shot = true
+
+[node name="AirJumpDelay" type="Timer" parent="Timers"]
+unique_name_in_owner = true
+process_callback = 0
+wait_time = 2.0
+one_shot = true
+
+[node name="Lables" type="Node" parent="."]
+
+[node name="MovementStateLable" type="Label" parent="Lables"]
+unique_name_in_owner = true
+offset_left = -20.0
+offset_top = -41.0
+offset_right = 20.0
+offset_bottom = -18.0
+pivot_offset = Vector2(26, 16)
