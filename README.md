@@ -9,7 +9,6 @@ Here's a diagram:
 To be fixed:
   - Jab! state is more like a self harm state. So I need to mess around with signals and Area2D nodes.
   - make the NPC Jabbable and able to dammage the Player.
-  - after the dead state the game crashes. 
 
 To be added:
   - Throwing knife
