@@ -18,6 +18,5 @@ func process_input(event: InputEvent) -> State:
 	return null
 
 func process_physics(delta: float) -> State:
-	if data_store["Health"] <= 0:
-		return DeadState
+	
 	return IdleAttackState

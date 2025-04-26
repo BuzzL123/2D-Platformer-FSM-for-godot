@@ -1,6 +1,7 @@
-[gd_scene load_steps=8 format=3 uid="uid://bkhl1lx40vxgv"]
+[gd_scene load_steps=9 format=3 uid="uid://bkhl1lx40vxgv"]
 
 [ext_resource type="PackedScene" uid="uid://dx61o0k2qkbyn" path="res://Scenes/Players/player.tscn" id="1_lwveb"]
+[ext_resource type="Texture2D" uid="uid://df2otgbli4rg7" path="res://Screenshots/States.png" id="1_sgqcn"]
 [ext_resource type="PackedScene" uid="uid://m7src34586sf" path="res://Scenes/NPCs/NPC_001.tscn" id="2_lwveb"]
 
 [sub_resource type="Gradient" id="Gradient_ru8pd"]
@@ -18,6 +19,10 @@ b = Vector2(594, 0)
 size = Vector2(109, 112)
 
 [node name="Demo_World" type="Node2D"]
+
+[node name="States" type="Sprite2D" parent="."]
+position = Vector2(688, 112)
+texture = ExtResource("1_sgqcn")
 
 [node name="player" parent="." instance=ExtResource("1_lwveb")]
 position = Vector2(733, 449)

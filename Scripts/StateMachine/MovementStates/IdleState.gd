@@ -30,7 +30,6 @@ func process_physics(delta: float) -> State:
 	
 	if !parent.is_on_floor():
 		return FallState
-	if data_store["Health"] <= 0:
-		return DeadState
+	
 
 	return null

@@ -26,10 +26,13 @@ func process_input(event: InputEvent) -> State:
 func process_physics(delta: float) -> State:
 	move_component.is_input_enabled = false
 	
-	parent.move_and_slide()
+	#parent.move_and_slide()
 
 	timer -= delta
 	if timer <= 0:
 		# Reload the current scene after a short delay
 		get_tree().reload_current_scene()  # This reloads the whole scene fresh
 	return null
+
+func get_jump() -> bool:
+	return true

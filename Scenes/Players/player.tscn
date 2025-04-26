@@ -250,6 +250,7 @@ animation_name = "RESET"
 
 [node name="Dead" type="Node" parent="MovementStateMachine"]
 script = ExtResource("11_j8xm3")
+animation_name = "RESET"
 
 [node name="AttackStateMachine" type="Node" parent="." node_paths=PackedStringArray("starting_state")]
 script = ExtResource("2_8reab")

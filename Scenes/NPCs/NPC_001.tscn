@@ -96,6 +96,7 @@ move_speed = 850.0
 
 [node name="Dead" type="Node" parent="MovementStateMachine"]
 script = ExtResource("10_snl6g")
+animation_name = "RESET"
 
 [node name="Lables" type="Control" parent="."]
 layout_mode = 3

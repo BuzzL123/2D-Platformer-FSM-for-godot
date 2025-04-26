@@ -23,6 +23,11 @@ func init(parent: CharacterBody2D, animations: AnimationPlayer, sprite_2d: Sprit
 	if has_node("Dead"):
 		data_store["death_state"] = get_node("Dead")
 
+	if data_store["Health"] <= 0:
+		return get_node("Dead")
+	
+	
+	
 	change_state(starting_state)
 
 
